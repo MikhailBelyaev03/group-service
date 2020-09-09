@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: group-v1
+  labels:
+    app: group
+spec:
+  selector:
+    matchLabels:
+      app: group
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: group
+        version: v1
+    spec:
+      containers:
+        - name: group
+          image: group:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
